@@ -25,6 +25,9 @@ public class NoteServiceImpl implements NoteService {
     @Override
     public Note updateNoteForUser(Long noteId, String content, String username) {
         Note note = noteRepository.findById(noteId).orElseThrow(() -> new RuntimeException("Note not found"));
+        if(!note.getOwnerUsername().equals(username)){
+            throw new RuntimeException("Note not found");
+        }
         note.setContent(content);
         return noteRepository.save(note);
     }
